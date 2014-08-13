@@ -8,11 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet weak var tableView : UITableView!
     var persons = [Person]()
                             
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         classRoster()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -32,12 +36,35 @@ class ViewController: UIViewController {
     func classRoster() {
         var index = 1
         for (lastName, firstName) in students {
-            persons.append(Person(firstName: firstName, lastName: lastName))
+            self.persons.append(Person(firstName: firstName, lastName: lastName))
         }
         println("List of persons in the class:")
-        for person in persons {
+        for person in self.persons {
             println("\(index++). \(person.fullName())")
         }
     }
+    
+    func tableView(tableView : UITableView!, numberOfRowsInSection section : Int) -> Int {
+        return self.persons.count
+    }
+    
+    func tableView(tableView : UITableView!, cellForRowAtIndexPath indexPath : NSIndexPath) -> UITableViewCell! {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        var personForRow = self.persons[indexPath.row]
+        cell.textLabel.text = personForRow.fullName()
+        return cell
+    }
+    
+//    func tableView(tableView: UITableView!, ) {
+//        println(indexPath.section)
+//    }
+    
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        println(indexPath.section)
+    }
+    
+    
+    
 }
 
