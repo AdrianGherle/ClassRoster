@@ -42,8 +42,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         for (lastName, firstName) in students {
             self.persons.append(Person(firstName: firstName, lastName: lastName))
         }
+        self.persons.sort {$0.lastName < $1.lastName}
         println("List of persons in the class:")
-        for person in self.persons {
+        for person in persons {
             println("\(index++). \(person.fullName())")
         }
     }
