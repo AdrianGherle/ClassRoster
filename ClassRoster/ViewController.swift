@@ -26,6 +26,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
     //    Holds an array of String dictionary with all the student names => last : first
     var students = ["Birkholz": "Nate", "Brightbill": "Matthew", "Chavez": "Jeff", "Clem": "John", "Ferderer": "Chrstie",
         "Fry": "David", "Gherle": "Adrian", "Hawken": "Jake", "Johnson": "Brad", "Kazi": "Shams", "Klein": "Cameron",
@@ -50,21 +54,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView : UITableView!, cellForRowAtIndexPath indexPath : NSIndexPath) -> UITableViewCell! {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell!
         var personForRow = self.persons[indexPath.row]
         cell.textLabel.text = personForRow.fullName()
         return cell
     }
     
-//    func tableView(tableView: UITableView!, ) {
-//        println(indexPath.section)
-//    }
-    
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+//        var personDetail = DetailViewController(person: self.persons[indexPath.row])
         println(indexPath.section)
     }
     
-    
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+        if segue.identifier == "detailSegue" {
+            let destination = segue.destinationViewController as DetailViewController
+            destination.person = persons[tableView!.indexPathForSelectedRow().row] as Person
+        }
+    }
+
     
 }
 

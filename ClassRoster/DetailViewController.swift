@@ -10,6 +10,21 @@ import Foundation
 import UIKit
 
 class DetailViewController : UIViewController {
+    var person: Person?
+    
+    @IBOutlet weak var firstName: UITextField!
+    @IBOutlet weak var lastName: UITextField!
+
+    
+    override func viewWillAppear(animated: Bool) {
+        firstName.text = person?.firstName
+        lastName.text = person?.lastName
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        person?.firstName = firstName.text
+        person?.lastName = lastName.text
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,5 +33,7 @@ class DetailViewController : UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    
     
 }
