@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView : UITableView!
-    var persons = [Person]()
+    var students = [Person]()
+    var teachers = [Person]()
                             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,50 +27,66 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         self.tableView.reloadData()
     }
     
-    //    Holds an array of String dictionary with all the student names => last : first
-    var students = ["Birkholz": "Nate", "Brightbill": "Matthew", "Chavez": "Jeff", "Clem": "John", "Ferderer": "Chrstie",
-        "Fry": "David", "Gherle": "Adrian", "Hawken": "Jake", "Johnson": "Brad", "Kazi": "Shams", "Klein": "Cameron",
+    // Hold the student names => last : first
+    var studentNames = ["Birkholz": "Nate", "Brightbill": "Matthew", "Chavez": "Jeff", "Ferderer": "Chrstie",
+        "Fry": "David", "Gherle": "Adrian", "Hawken": "Jake", "Kazi": "Shams", "Klein": "Cameron",
         "Kolodziejczak": "Kori", "Lewis": "Parker", "Ma": "Nathan", "MacPhee": "Casey", "McAleer": "Brendan", "Mendez": "Brian",
         "Morris": "Mark", "North": "Rowan", "Pham": "Kevin", "Richman": "Will", "Thueringer": "Heather", "Vu": "Tuan",
         "Walkingstick": "Zack", "Wong": "Sara", "Zhang": "Hongyao"]
     
+    // Hold the teacher names
+    var teacherNames = ["Clem": "John", "Johnson": "Brad"]
+    
+    // Build the array with students and teachers of Person type object
     func classRoster() {
         var index = 1
-        for (lastName, firstName) in students {
-            self.persons.append(Person(firstName: firstName, lastName: lastName))
+        for (lastName, firstName) in studentNames {
+            self.students.append(Person(firstName: firstName, lastName: lastName))
         }
-        self.persons.sort {$0.lastName < $1.lastName}
-        println("List of persons in the class:")
-        for person in persons {
-            println("\(index++). \(person.fullName())")
+        for (lastName, firstName) in teacherNames {
+            self.teachers.append(Person(firstName: firstName, lastName: lastName))
         }
+        
+        self.students.sort {$0.lastName < $1.lastName}
+        self.teachers.sort {$0.lastName < $1.lastName}
+    }
+    
+    func numberOfSectionsInTableView(section : Int) -> Int {
+        return 2
     }
     
     func tableView(tableView : UITableView!, numberOfRowsInSection section : Int) -> Int {
-        return self.persons.count
+        if section == 0 {
+            return self.students.count
+        } else {
+            return self.teachers.count
+        }
     }
     
     func tableView(tableView : UITableView!, cellForRowAtIndexPath indexPath : NSIndexPath) -> UITableViewCell! {
-        
+        var personForRow : Person
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell!
-        var personForRow = self.persons[indexPath.row]
+        if indexPath.section == 0 {
+            personForRow = self.students[indexPath.row]
+        } else {
+            personForRow = self.teachers[indexPath.row]
+        }
         cell.textLabel.text = personForRow.fullName()
         return cell
-    }
-    
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-//        var personDetail = DetailViewController(person: self.persons[indexPath.row])
-        println(indexPath.section)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         if segue.identifier == "detailSegue" {
             let destination = segue.destinationViewController as DetailViewController
-            destination.person = persons[tableView!.indexPathForSelectedRow().row] as Person
+            destination.person = students[tableView!.indexPathForSelectedRow().row] as Person
         }
     }
 

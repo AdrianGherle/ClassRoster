@@ -21,7 +21,7 @@ class Person {
     }
     
     func fullName() -> String {
-        return firstName + " " + lastName
+        return lastName + " " + firstName
     }
     
 }
