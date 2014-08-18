@@ -8,11 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AddNewPersonViewControllerDelegate {
     
     @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var addPerson: UIBarButtonItem!
+    
     var students = [Person]()
     var teachers = [Person]()
+    let numberOfSections = 2
                             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +63,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func numberOfSectionsInTableView(section : Int) -> Int {
-        return 2
+        return numberOfSections
     }
     
     func tableView(tableView : UITableView!, numberOfRowsInSection section : Int) -> Int {
@@ -83,10 +86,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    func saveNewPerson(controller: AddNewPersonViewController) {
+        self.students.append(controller.person!)
+        controller.navigationController.popViewControllerAnimated(true)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         if segue.identifier == "detailSegue" {
             let destination = segue.destinationViewController as DetailViewController
             destination.person = students[tableView!.indexPathForSelectedRow().row] as Person
+        }else if segue.identifier == "addPersonSegue" {
+            let destination = segue.destinationViewController as AddNewPersonViewController
+            destination.delegate = self
+            
         }
     }
 

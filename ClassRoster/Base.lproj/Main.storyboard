@@ -4,7 +4,68 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6198"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Add new person-->
+        <scene sceneID="Px8-ng-D2D">
+            <objects>
+                <viewController title="Add new person" id="Qb4-A1-Ajo" customClass="AddNewPersonViewController" customModule="ClassRoster" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uPP-wf-Igf"/>
+                        <viewControllerLayoutGuide type="bottom" id="JIi-rp-8uP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8V3-C2-bbU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZVu-m8-Hvv">
+                                <rect key="frame" x="25" y="96" width="250" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="prw-ye-OBY">
+                                <rect key="frame" x="25" y="159" width="250" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="*" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AzF-eE-ac7">
+                                <rect key="frame" x="255" y="96" width="20" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="*" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wc4-uj-NnB">
+                                <rect key="frame" x="255" y="163" width="20" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="* Required fields" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmH-65-hdx">
+                                <rect key="frame" x="25" y="192" width="250" height="23"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Person" id="cJS-E8-dgW">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="G8o-up-mlm">
+                            <connections>
+                                <action selector="saveAction:" destination="Qb4-A1-Ajo" id="yYH-H5-6Od"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="firstName" destination="ZVu-m8-Hvv" id="Fcx-dn-g7i"/>
+                        <outlet property="lastName" destination="prw-ye-OBY" id="h6V-qJ-X93"/>
+                        <outlet property="requiredLabel" destination="hmH-65-hdx" id="Rvd-ph-nbW"/>
+                        <outlet property="save" destination="G8o-up-mlm" id="8Rc-D7-dHG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FC3-ag-Nvu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2669" y="-370"/>
+        </scene>
+        <!--Class-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="ClassRoster" customModuleProvider="target" sceneMemberID="viewController">
@@ -36,8 +97,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="i4J-vA-5bc"/>
+                    <navigationItem key="navigationItem" title="Class" id="i4J-vA-5bc">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Gk4-rE-K5H">
+                            <connections>
+                                <segue destination="Qb4-A1-Ajo" kind="show" identifier="addPersonSegue" id="UZ0-cp-jem"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="addPerson" destination="Gk4-rE-K5H" id="Dsf-TW-rtU"/>
                         <outlet property="tableView" destination="Sv0-ez-jge" id="hXj-n1-Vyn"/>
                     </connections>
                 </viewController>
