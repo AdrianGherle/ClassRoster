@@ -86,6 +86,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    func tableView(tableView: UITableView!, titleForHeaderInSection section: Int) -> String {
+        if section == 0 {
+            return "Students"
+        } else {
+            return "Teachers"
+        }
+    }
+    
     func saveNewPerson(controller: AddNewPersonViewController) {
         self.students.append(controller.person!)
         controller.navigationController.popViewControllerAnimated(true)
