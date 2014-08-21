@@ -32,10 +32,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewWillAppear(animated: Bool) {
         self.tableView.reloadData()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        self.tableView.reloadData()
+        self.students.sort {$0.lastName < $1.lastName}
+        self.teachers.sort {$0.lastName < $1.lastName}
     }
     
     // Hold the student names => last : first
@@ -52,14 +50,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func classRoster() {
         var index = 1
         for (lastName, firstName) in studentNames {
-            self.students.append(Person(firstName: firstName, lastName: lastName))
+            self.students.append(Person(firstName: firstName, lastName: lastName, isStudent: true))
         }
         for (lastName, firstName) in teacherNames {
-            self.teachers.append(Person(firstName: firstName, lastName: lastName))
+            self.teachers.append(Person(firstName: firstName, lastName: lastName, isStudent: false))
         }
-        
-        self.students.sort {$0.lastName < $1.lastName}
-        self.teachers.sort {$0.lastName < $1.lastName}
     }
     
     func numberOfSectionsInTableView(section : Int) -> Int {
@@ -94,6 +89,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
     }
     
+    // ////// Update to add teacher or student
     func saveNewPerson(controller: AddNewPersonViewController) {
         self.students.append(controller.person!)
         controller.navigationController.popViewControllerAnimated(true)
@@ -102,14 +98,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         if segue.identifier == "detailSegue" {
             let destination = segue.destinationViewController as DetailViewController
-            destination.person = students[tableView!.indexPathForSelectedRow().row] as Person
+            if tableView.indexPathForSelectedRow().section == 0 {
+                destination.person = students[tableView!.indexPathForSelectedRow().row] as Person
+            } else {
+                destination.person = teachers[tableView!.indexPathForSelectedRow().row] as Person
+            }
         }else if segue.identifier == "addPersonSegue" {
             let destination = segue.destinationViewController as AddNewPersonViewController
             destination.delegate = self
-            
         }
     }
-
-    
 }
 

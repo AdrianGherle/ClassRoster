@@ -24,7 +24,7 @@ class AddNewPersonViewController : UIViewController {
     @IBAction func saveAction(sender: UIBarButtonItem) {
         if delegate! != nil {
             if validateName() {
-                person = Person(firstName: firstName.text, lastName: lastName.text)
+                person = Person(firstName: firstName.text, lastName: lastName.text, isStudent: true)
                 delegate!.saveNewPerson(self)
             } else {
                 requiredLabel.text = "Must complete all required fields"
